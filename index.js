@@ -21,7 +21,7 @@ module.exports = function (config) {
     if (!state) return state;
 
     var validState = traverse(state).forEach(function (value) {
-      if (typeof value !== 'object') {
+      if (!value || typeof value !== 'object') {
         return;
       }
 
@@ -31,12 +31,12 @@ module.exports = function (config) {
 
       var expireDate = value[config.expireKey];
 
-      if (!expireDate || !(expireDate instanceof Date)) {
+      if (!expireDate) {
         return;
       }
 
-      if (dateToUnix(expireDate) < dateToUnix(new Date())) {
-        this.remove();
+      if (dateToUnix(new Date(expireDate)) < dateToUnix(new Date())) {
+        this.update({});
       }
     });
 
