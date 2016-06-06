@@ -7,16 +7,14 @@ Add expiration to your persisted store.
 ## Usage
 
 ```js
-import createExpirationTransform from 'redux-persist-transform-encrypt';
+import createExpirationTransform from 'redux-persist-transform-expire';
 
-const encryptor = createExpirationTransform({
+const expireTransform = createExpirationTransform({
   expireKey: 'customExpiresAt'
 });
 
 persistStore(store, {
-  transforms: [
-    encryptor
-  ]
+  transforms: [expireTransform]
 });
 
 ```
