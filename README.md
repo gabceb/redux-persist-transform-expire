@@ -1,4 +1,4 @@
-# redux-persist-transform-encrypt
+# redux-persist-transform-expire
 
 [![npm](https://img.shields.io/npm/v/redux-persist-transform-expire.svg?maxAge=2592000&style=flat-square)](https://www.npmjs.com/package/redux-persist-transform-expire)
 
