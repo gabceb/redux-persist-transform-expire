@@ -1,6 +1,6 @@
 {
   "name": "redux-persist-transform-expire",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Add expiration to your persisted store",
   "main": "index.js",
   "scripts": {
