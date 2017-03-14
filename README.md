@@ -10,7 +10,10 @@ Add expiration to your persisted store.
 import createExpirationTransform from 'redux-persist-transform-expire';
 
 const expireTransform = createExpirationTransform({
-  expireKey: 'customExpiresAt'
+  expireKey: 'customExpiresAt',
+  defaultState: {
+    custom: 'values'
+  }
 });
 
 persistStore(store, {
@@ -18,3 +21,9 @@ persistStore(store, {
 });
 
 ```
+## Configuration
+
+| Attr         | Type   | Default           | Notes                                               |
+| ------------ | ------ | ----------------- | --------------------------------------------------- |
+| expireKey    | String | false             | Name of the attribute holding the expire date value |
+| defaultState | Any    | {}                | Shape of the state after expirations happen         |
