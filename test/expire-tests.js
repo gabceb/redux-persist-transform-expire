@@ -205,4 +205,41 @@ describe('Redux persists transform expire', function () {
 
     done();
   });
+
+  it('should allow a user to override the default state', function (done) {
+    var state = {
+      app: {
+        reducer: {
+          data: {
+            values: [1, 2],
+            persistExpiresAt: moment().subtract(1, 'hour').toDate()
+          }
+        }
+      }
+    };
+
+    var config = {
+      defaultState: {
+        values: [3]
+      }
+    };
+
+    var transform = createExpireTransform(config);
+
+    var inboundOutputState = transform.in(state);
+    var outboundOutputState = transform.out(state);
+
+    expect(inboundOutputState).to.eql(state);
+    expect(outboundOutputState).to.eql({
+      app: {
+        reducer: {
+          data: {
+            values: [3]
+          }
+        }
+      }
+    });
+
+    done();
+  });
 });
