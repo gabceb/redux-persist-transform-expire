@@ -23,7 +23,7 @@ persistStore(store, {
 ```
 ## Configuration
 
-| Attr         | Type   | Default           | Notes                                               |
-| ------------ | ------ | ----------------- | --------------------------------------------------- |
-| expireKey    | String | false             | Name of the attribute holding the expire date value |
-| defaultState | Any    | {}                | Shape of the state after expirations happen         |
+| Attr         | Type   | Default            | Notes                                               |
+| ------------ | ------ | ------------------ | --------------------------------------------------- |
+| expireKey    | String | 'persistExpiresAt' | Name of the attribute holding the expire date value |
+| defaultState | Any    | {}                 | Shape of the state after expirations happen         |
