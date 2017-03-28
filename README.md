@@ -21,6 +21,20 @@ persistStore(store, {
 });
 
 ```
+Your expires key should be present in each reducer, which should be expired. E.g.
+```
+// top most reducer
+{
+  reducerOne: {
+    persistExpiresAt: '2017-04-11T15:46:54.338Z'
+  },
+  reducerTwo: {
+    persistExpiresAt: '2017-04-11T15:46:54.338Z'
+  }
+}
+```
+
+
 ## Configuration
 
 | Attr         | Type   | Default            | Notes                                               |
