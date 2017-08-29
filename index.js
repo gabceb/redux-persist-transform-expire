@@ -1,43 +1,47 @@
-var reduxPersist = require('redux-persist');
-var traverse = require('traverse');
+const reduxPersist = require('redux-persist');
+const traverse = require('traverse');
 
-var PERSIST_EXPIRE_DEFAULT_KEY = 'persistExpiresAt';
+const PERSIST_EXPIRE_DATE_DEFAULT_KEY = 'persistExpiresAt';
+const PERSIST_EXPIRE_STATE_DEFAULT_KEY = 'stateAfterExpiration';
 
 module.exports = function (config) {
   config = config || {};
-  config.expireKey = config.expireKey || PERSIST_EXPIRE_DEFAULT_KEY;
+  config.expireDateKey = config.expireDateKey || PERSIST_EXPIRE_DATE_DEFAULT_KEY;
+  config.expireStateKey = config.expireStateKey || PERSIST_EXPIRE_STATE_DEFAULT_KEY;
   config.defaultState = config.defaultState || {};
 
-  function dateToUnix (date) {
+  function dateToUnix(date) {
     return +(date.getTime() / 1000).toFixed(0);
   }
 
-  function inbound (state) {
+  function inbound(state) {
     if (!state) return state;
 
     return state;
   }
 
-  function outbound (state) {
+  function outbound(state) {
     if (!state) return state;
 
-    var validState = traverse(state).forEach(function (value) {
+    const validState = traverse(state).forEach(function (value) {
       if (!value || typeof value !== 'object') {
         return;
       }
 
-      if (!value.hasOwnProperty(config.expireKey)) {
+      if (!value.hasOwnProperty(config.expireDateKey)) {
         return;
       }
 
-      var expireDate = value[config.expireKey];
+      const expireDate = value[config.expireDateKey];
 
       if (!expireDate) {
         return;
       }
 
+      const stateAfterExpiration = value[config.expireStateKey] || config.defaultState;
+
       if (dateToUnix(new Date(expireDate)) < dateToUnix(new Date())) {
-        this.update(config.defaultState);
+        this.update(stateAfterExpiration);
       }
     });
 
