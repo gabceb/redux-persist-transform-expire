@@ -65,7 +65,8 @@ describe('Redux persists transform expire', function () {
         reducer: {
           data: {
             values: [1, 2],
-            persistExpiresAt: moment().subtract(1, 'hour').toDate()
+            persistExpiresAt: moment().subtract(1, 'hour').toDate(),
+            stateAfterExpiration: { values: [1] }
           }
         }
       }
@@ -81,7 +82,7 @@ describe('Redux persists transform expire', function () {
       app: {
         reducer: {
           data: {
-
+            values: [1]
           }
         }
       }
@@ -120,7 +121,7 @@ describe('Redux persists transform expire', function () {
           },
           {
             values: [5, 6],
-            persistExpiresAt: notExpiredDate
+            persistExpiresAt: notExpiredDate,
           }]
         }
       }
@@ -171,7 +172,7 @@ describe('Redux persists transform expire', function () {
     done();
   });
 
-  it('should allow a user to override the expire prop key', function (done) {
+  it('should allow a user to override the expire date prop key', function (done) {
     var state = {
       app: {
         reducer: {
@@ -184,7 +185,7 @@ describe('Redux persists transform expire', function () {
     };
 
     var config = {
-      expireKey: 'myExpireKey'
+      expireDateKey: 'myExpireKey'
     };
 
     var transform = createExpireTransform(config);
@@ -198,6 +199,42 @@ describe('Redux persists transform expire', function () {
         reducer: {
           data: {
 
+          }
+        }
+      }
+    });
+
+    done();
+  });
+
+  it('should allow a user to override the expired state prop key', function (done) {
+    var state = {
+      app: {
+        reducer: {
+          data: {
+            values: [1, 2],
+            persistExpiresAt: moment().subtract(1, 'hour').toDate(),
+            myExpireKey: { values: [1] }
+          }
+        }
+      }
+    };
+
+    var config = {
+      expireStateKey: 'myExpireKey'
+    };
+
+    var transform = createExpireTransform(config);
+
+    var inboundOutputState = transform.in(state);
+    var outboundOutputState = transform.out(state);
+
+    expect(inboundOutputState).to.eql(state);
+    expect(outboundOutputState).to.eql({
+      app: {
+        reducer: {
+          data: {
+            values: [1]
           }
         }
       }
